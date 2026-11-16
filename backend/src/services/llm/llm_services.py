@@ -5,7 +5,6 @@ class LlmService:
     def __init__(self):
         pass
 
-
     def generate(self,prompt : str ) -> str:
 
         # Configuracoes do modelo
@@ -15,8 +14,8 @@ class LlmService:
             "prompt": prompt,
             "stream": False,
             "options": {
-                "temperature: 0.4"
-                "num_predict": 60
+                "temperature": 0.4,
+                "num_predict": 60,
             }
         }
 

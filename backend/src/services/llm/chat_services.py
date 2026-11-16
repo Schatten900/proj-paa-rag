@@ -1,25 +1,37 @@
 from .llm_services import LlmService
 from .prompt_builder import PromptBuilderService
 from ..rag.rag_services import RagService
+from ...repositories.qdrant_repository import QdrantRepository
 
 
 class ChatService:
-    def __init__(self):
-        self.rag_service = RagService()
-        self.prompt_builder_service = PromptBuilderService()
-        self.llm_service = LlmService()
+    def __init__(
+        self,
+        rag_service: RagService,
+        prompt_builder_service: PromptBuilderService,
+        llm_service: LlmService,
+    ):
+        self.rag_service = rag_service
+        self.prompt_builder_service = prompt_builder_service
+        self.llm_service = llm_service
 
 
     def chat(self,question):
 
-        # Busca pelo banco vetorial dados proximos da pergunta, aqui entra rag_service
+        print("Iniciando a conversa")
 
+        # Busca pelo banco vetorial dados proximos da pergunta
 
-        # Cria o prompt da mensagem
+        documents = self.rag_service.retrieve(question)
 
-        prompt = 
+        # Converte para texto os documentos encontrados  
+        context_texts = [point.payload["text"] for point in documents if point.payload]
+
+        print(f"documentos gerados: {context_texts}")
+
+        # Cria o prompt da mensagem 
+        prompt = self.prompt_builder_service.build(question, context_texts)
 
         # Faz a chamada ao llm
-
-        self.llm_service.generate(prompt)
+        return self.llm_service.generate(prompt)
         

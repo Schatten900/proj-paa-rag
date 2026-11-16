@@ -4,7 +4,7 @@ class PromptBuilderService:
     def __init__(self):
         pass
 
-    def build(self,context : list[str]) -> str:
+    def build(self, question: str, context: list[str]) -> str:
         context_text = "\n\n".join(context)
 
         return f"""
@@ -24,5 +24,9 @@ class PromptBuilderService:
         'confiance:'indice_confiança'
         'origin':'document_origin'
         ```
+
+        PERGUNTA: {question}
+
+        CONTEXTO: {context_text}
 
         """
